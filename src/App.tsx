@@ -190,10 +190,9 @@ import { isAuthenticated } from "./lib/authStorage";
 import { logout as apiLogout } from "./features/auth/auth.api";
 
 function App() {
-  const [page, setPage] =
-    useState<Page>(
-      isAuthenticated() ? "dashboard" : "login"
-    );
+  const [page, setPage] = useState<Page>(
+    isAuthenticated() ? "dashboard" : "login",
+  );
 
   const [authenticated, setAuthenticated] =
     useState<boolean>(isAuthenticated());
@@ -207,21 +206,15 @@ function App() {
               setPage("dashboard");
               setAuthenticated(true);
             }}
-            onSignup={() =>
-              setPage("signup")
-            }
+            onSignup={() => setPage("signup")}
           />
         );
 
       case "signup":
         return (
           <SignupPage
-            onSuccess={() =>
-              setPage("login")
-            }
-            onSignin={() =>
-              setPage("login")
-            }
+            onSuccess={() => setPage("login")}
+            onSignin={() => setPage("login")}
           />
         );
 
@@ -271,45 +264,35 @@ function App() {
           >
             <button
               className="btn btn-primary"
-              onClick={() =>
-                setPage("dashboard")
-              }
+              onClick={() => setPage("dashboard")}
             >
               Dashboard
             </button>
 
             <button
               className="btn btn-primary"
-              onClick={() =>
-                setPage("login")
-              }
+              onClick={() => setPage("login")}
             >
               Login
             </button>
 
             <button
               className="btn btn-primary"
-              onClick={() =>
-                setPage("signup")
-              }
+              onClick={() => setPage("signup")}
             >
               Signup
             </button>
 
             <button
               className="btn btn-primary"
-              onClick={() =>
-                setPage("vendors")
-              }
+              onClick={() => setPage("vendors")}
             >
               Vendors
             </button>
 
             <button
               className="btn btn-primary"
-              onClick={() =>
-                setPage("vendorForm")
-              }
+              onClick={() => setPage("vendorForm")}
             >
               Add Vendor
             </button>
