@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from server.app.db.database import get_database, get_client
-from server.app.modules.users import router as users_router
-from server.app.modules.auth.router import router as auth_router
+from .db.database import get_database, get_client
+from .modules.users import router as users_router
+from .modules.auth.router import router as auth_router
 
 app = FastAPI(title="Minimal FastAPI MongoDB Backend")
 
