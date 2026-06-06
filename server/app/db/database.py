@@ -1,7 +1,7 @@
 from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorClient
-from server.app.core.config import settings
+from ..core.config import settings
 
 _client: Optional[AsyncIOMotorClient] = None
 

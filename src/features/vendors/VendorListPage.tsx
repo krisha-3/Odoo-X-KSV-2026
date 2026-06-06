@@ -5,14 +5,15 @@ import Button from "../../components/ui/Button";
 import DataTable from "../../components/ui/DataTable";
 import StatusBadge from "../../components/ui/StatusBadge";
 
-import {
-  getVendors,
-  deleteVendor,
-} from "./vendor.api";
+import { getVendors, deleteVendor } from "./vendor.api";
 
 import type { Vendor } from "./vendor.types";
 
-const VendorListPage = () => {
+interface Props {
+  onAddVendor: () => void;
+}
+
+const VendorListPage = ({ onAddVendor }: Props) => {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,10 +26,7 @@ const VendorListPage = () => {
 
       setVendors(response.data.items);
     } catch (error) {
-      console.error(
-        "Failed to fetch vendors",
-        error
-      );
+      console.error("Failed to fetch vendors", error);
     } finally {
       setLoading(false);
     }
@@ -38,11 +36,9 @@ const VendorListPage = () => {
     fetchVendors();
   }, []);
 
-  const handleDeleteVendor = async (
-    vendorId: string
-  ) => {
+  const handleDeleteVendor = async (vendorId: string) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this vendor?"
+      "Are you sure you want to delete this vendor?",
     );
 
     if (!confirmed) {
@@ -53,16 +49,10 @@ const VendorListPage = () => {
       await deleteVendor(vendorId);
 
       setVendors((prev) =>
-        prev.filter(
-          (vendor) =>
-            vendor.vendorId !== vendorId
-        )
+        prev.filter((vendor) => vendor.vendorId !== vendorId),
       );
     } catch (error) {
-      console.error(
-        "Failed to delete vendor",
-        error
-      );
+      console.error("Failed to delete vendor", error);
     }
   };
 
@@ -90,11 +80,7 @@ const VendorListPage = () => {
     {
       key: "status",
       title: "Status",
-      render: (row: Vendor) => (
-        <StatusBadge
-          status={row.status}
-        />
-      ),
+      render: (row: Vendor) => <StatusBadge status={row.status} />,
     },
     {
       key: "actions",
@@ -108,23 +94,14 @@ const VendorListPage = () => {
         >
           <Button
             variant="secondary"
-            onClick={() =>
-              console.log(
-                "Edit Vendor:",
-                row.vendorId
-              )
-            }
+            onClick={() => console.log("Edit Vendor:", row.vendorId)}
           >
             Edit
           </Button>
 
           <Button
             variant="danger"
-            onClick={() =>
-              handleDeleteVendor(
-                row.vendorId
-              )
-            }
+            onClick={() => handleDeleteVendor(row.vendorId)}
           >
             Delete
           </Button>
@@ -137,17 +114,14 @@ const VendorListPage = () => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">
-            Vendors
-          </h1>
+          <h1 className="page-title">Vendors</h1>
 
           <p className="page-description">
-            Manage vendor registrations
-            and supplier information.
+            Manage vendor registrations and supplier information.
           </p>
         </div>
 
-        <Button>
+        <Button onClick={onAddVendor}>
           + Add Vendor
         </Button>
       </div>

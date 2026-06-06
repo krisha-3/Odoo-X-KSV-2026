@@ -6,7 +6,7 @@ from pydantic import BaseModel, EmailStr
 from passlib.context import CryptContext
 from jose import jwt
 
-from server.app.db.database import get_database
+from ..db.database import get_database
 
 router = APIRouter()
 

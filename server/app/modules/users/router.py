@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 
-from server.app.db.database import get_database
+from ..db.database import get_database
 
 router = APIRouter()
 
