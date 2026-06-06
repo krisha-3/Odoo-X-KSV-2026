@@ -5,11 +5,10 @@
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
 
-# Database: MySQL + SQLAlchemy
-SQLAlchemy==2.0.36
-PyMySQL==1.1.1
+# Database: MongoDB (async)
+motor==3.1.1
+pymongo==4.4.0
 cryptography==44.0.0
-alembic==1.14.0
 
 # Validation and settings
 pydantic==2.10.4
