@@ -1,0 +1,35 @@
+# VendorBridge Backend Dependencies
+# Python 3.11+ recommended
+
+# Core API
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# Database: MySQL + SQLAlchemy
+SQLAlchemy==2.0.36
+PyMySQL==1.1.1
+cryptography==44.0.0
+alembic==1.14.0
+
+# Validation and settings
+pydantic==2.10.4
+pydantic-settings==2.7.1
+email-validator==2.2.0
+python-dotenv==1.0.1
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+python-multipart==0.0.20
+
+# PDF and invoice generation
+reportlab==4.2.5
+Jinja2==3.1.5
+
+# Utilities
+python-dateutil==2.9.0.post0
+
+# Testing / development helpers
+pytest==8.3.4
+httpx==0.28.1
