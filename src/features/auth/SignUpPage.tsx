@@ -7,7 +7,12 @@ import { signup } from "./auth.api";
 
 import type { UserRole } from "./auth.types";
 
-const SignupPage = () => {
+type Props = {
+  onSuccess?: () => void;
+  onSignin?: () => void;
+};
+
+const SignupPage = ({ onSuccess, onSignin }: Props) => {
   const [fullName, setFullName] =
     useState("");
 
@@ -26,6 +31,16 @@ const SignupPage = () => {
     useState<UserRole>(
       "Procurement Officer"
     );
+
+  const ROLE_OPTIONS: { value: UserRole; label: string }[] = [
+    { value: "Admin", label: "admin" },
+    {
+      value: "Procurement Officer",
+      label: "procurement_officer",
+    },
+    { value: "Vendor", label: "vendor" },
+    { value: "Manager", label: "manager" },
+  ];
 
   const [loading, setLoading] =
     useState(false);
@@ -78,6 +93,10 @@ const SignupPage = () => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       setError(
         "Unable to create account."
@@ -155,21 +174,14 @@ const SignupPage = () => {
                 )
               }
             >
-              <option value="Admin">
-                Admin
-              </option>
-
-              <option value="Manager">
-                Manager
-              </option>
-
-              <option value="Procurement Officer">
-                Procurement Officer
-              </option>
-
-              <option value="Vendor">
-                Vendor
-              </option>
+              {ROLE_OPTIONS.map((opt) => (
+                <option
+                  key={opt.value}
+                  value={opt.value}
+                >
+                  {opt.label}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -255,6 +267,28 @@ const SignupPage = () => {
                 ? "Creating Account..."
                 : "Create Account"}
             </Button>
+          </div>
+
+          <div
+            style={{
+              marginTop: "16px",
+              textAlign: "center",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() =>
+                onSignin && onSignin()
+              }
+              style={{
+                background: "none",
+                border: "none",
+                color: "#2563eb",
+                cursor: "pointer",
+              }}
+            >
+              Already have an account? Sign in
+            </button>
           </div>
         </form>
       </Card>

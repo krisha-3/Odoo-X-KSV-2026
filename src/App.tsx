@@ -17,17 +17,44 @@ type Page =
   | "vendors"
   | "vendorForm";
 
+import { isAuthenticated } from "./lib/authStorage";
+import { logout as apiLogout } from "./features/auth/auth.api";
+
 function App() {
   const [page, setPage] =
-    useState<Page>("dashboard");
+    useState<Page>(
+      isAuthenticated() ? "dashboard" : "login"
+    );
+
+  const [authenticated, setAuthenticated] =
+    useState<boolean>(isAuthenticated());
 
   const renderPage = () => {
     switch (page) {
       case "login":
-        return <LoginPage />;
+        return (
+          <LoginPage
+            onSuccess={() => {
+              setPage("dashboard");
+              setAuthenticated(true);
+            }}
+            onSignup={() =>
+              setPage("signup")
+            }
+          />
+        );
 
       case "signup":
-        return <SignupPage />;
+        return (
+          <SignupPage
+            onSuccess={() =>
+              setPage("login")
+            }
+            onSignin={() =>
+              setPage("login")
+            }
+          />
+        );
 
       case "vendors":
         return <VendorListPage />;
@@ -41,62 +68,87 @@ function App() {
   };
 
   return (
-    <AppShell>
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            setPage("dashboard")
-          }
-        >
-          Dashboard
-        </button>
+    // Render auth pages outside the main AppShell
+    <>
+      {page === "login" || page === "signup" ? (
+        renderPage()
+      ) : (
+        <AppShell>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                setPage("dashboard")
+              }
+            >
+              Dashboard
+            </button>
 
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            setPage("login")
-          }
-        >
-          Login
-        </button>
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                setPage("login")
+              }
+            >
+              Login
+            </button>
 
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            setPage("signup")
-          }
-        >
-          Signup
-        </button>
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                setPage("signup")
+              }
+            >
+              Signup
+            </button>
 
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            setPage("vendors")
-          }
-        >
-          Vendors
-        </button>
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                setPage("vendors")
+              }
+            >
+              Vendors
+            </button>
 
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            setPage("vendorForm")
-          }
-        >
-          Add Vendor
-        </button>
-      </div>
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                setPage("vendorForm")
+              }
+            >
+              Add Vendor
+            </button>
 
-      {renderPage()}
-    </AppShell>
+            {authenticated && (
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  try {
+                    apiLogout();
+                  } catch (e) {
+                    // ignore
+                  }
+
+                  setAuthenticated(false);
+                  setPage("login");
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </div>
+
+          {renderPage()}
+        </AppShell>
+      )}
+    </>
   );
 }
 

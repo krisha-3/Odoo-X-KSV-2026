@@ -5,7 +5,12 @@ import Card from "../../components/ui/Card";
 
 import { login } from "./auth.api";
 
-const LoginPage = () => {
+type Props = {
+  onSuccess?: () => void;
+  onSignup?: () => void;
+};
+
+const LoginPage = ({ onSuccess, onSignup }: Props) => {
   const [email, setEmail] =
     useState<string>("");
 
@@ -45,10 +50,9 @@ const LoginPage = () => {
         response
       );
 
-      // TODO:
-      // Navigate to dashboard
-      // Example:
-      // navigate("/dashboard");
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (err) {
       setError(
         "Unable to login. Please try again."
@@ -145,17 +149,40 @@ const LoginPage = () => {
               textAlign: "center",
             }}
           >
-            <button
-              type="button"
+            <div
               style={{
-                background: "none",
-                border: "none",
-                color: "#2563eb",
-                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              Forgot Password?
-            </button>
+              <button
+                type="button"
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#2563eb",
+                  cursor: "pointer",
+                }}
+              >
+                Forgot Password?
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  onSignup && onSignup()
+                }
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#2563eb",
+                  cursor: "pointer",
+                }}
+              >
+                Create account
+              </button>
+            </div>
           </div>
         </form>
       </Card>
